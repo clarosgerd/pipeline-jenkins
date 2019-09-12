@@ -10,7 +10,10 @@ pipeline{
         stage("Deploy to QA"){
             agent { label ' master' }
             steps{
-                sh "docker-compose up --build"
+                dir("Docker-files"){
+                     sh "pwd"
+                     sh "docker-compose up --build"    
+                }
             }
         }
     //     stage("Get Automation Code from Git"){
