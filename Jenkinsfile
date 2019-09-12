@@ -12,20 +12,20 @@ pipeline{
                git 'https://github.com/alvaro980/JavaScript.git'
             }  
         }
-        stage("Build"){
-            agent { label ' master' }
-            steps{
-                 sh "sudo docker run -d -p 27017:27017 --name db mongo"
-                 sh "sudo docker run -d -p 4000:4000 --name web_app node" 
-                 sh "npm install"     
-            }
-        }
-        stage("Deploy to QA"){
-            agent { label ' master' }
-            steps{
-                 sh "npm run dev"     
-            }
-        }
+        // stage("Build"){
+        //     agent { label ' master' }
+        //     steps{
+        //          sh "docker run -d -p 27017:27017 --name db mongo"
+        //          sh "docker run -d -p 4000:4000 --name web_app node" 
+        //          sh "npm install"     
+        //     }
+        // }
+        // stage("Deploy to QA"){
+        //     agent { label ' master' }
+        //     steps{
+        //          sh "npm run dev"     
+        //     }
+        // }
         stage("Get Automation Code from Git"){
             agent { label 'master' }
             steps{
@@ -37,7 +37,7 @@ pipeline{
             steps{
                 dir("auto-GA-v07"){
                     sh "sudo ./gradlew build"  
-                    sh "gradlew test"   
+                    sh "gradlew runFeatures"   
                 }
             }  
         }
@@ -59,7 +59,7 @@ pipeline{
             agent{label "PROD"}
             steps{
                 sh "docker network create -d overlay appoverlay1"
-                sh "docker service create --name webapp -d --network appoverlay1 -p 4000:4000 hshar/webapp"
+                sh "docker service create --name web_app -d --network appoverlay1 -p 4000:4000 hshar/web_app"
             }
         }
     }
