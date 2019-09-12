@@ -7,30 +7,10 @@ pipeline{
                git 'https://github.com/alvaro980/Docker-files.git'
             }  
         }
-        // stage("Build"){
-        //     agent { docker 'maven:3-alpine' }
-		// 	steps{
-        //          sh "mvn clean package"
-        //     }
-        // }
-        // stage("Archive artifact"){
-        //     agent { label 'master' }
-        //     steps{
-        //        archiveArtifacts 'target/*.jar'
-        //     }
-        // }
-		// stage("Package"){
-        //     agent { label ' master' }
-        //     steps{
-        //        sh "docker build -t blog_app:v1 ."
-        //        sh "docker save -o blog.tar blog_app:v1"
-        //        stash name: "stash-artifact", includes: "blog.tar"
-        //     }
-        // }
         stage("Deploy to QA"){
             agent { label ' master' }
             steps{
-                sh "docker-compose up -d book_app:v1"
+                sh "docker-compose up --build"
             }
         }
     //     stage("Get Automation Code from Git"){
