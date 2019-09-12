@@ -27,13 +27,12 @@ pipeline{
         //        stash name: "stash-artifact", includes: "blog.tar"
         //     }
         // }
-    //     stage("Deploy to QA"){
-    //         agent { label ' master' }
-    //         steps{
-    //             sh "docker rm blog -f || true"
-    //             sh "docker-compose up -d book_app:v1"
-    //         }
-    //     }
+        stage("Deploy to QA"){
+            agent { label ' master' }
+            steps{
+                sh "docker-compose up -d book_app:v1"
+            }
+        }
     //     stage("Get Automation Code from Git"){
     //         agent { label 'master' }
     //         steps{
