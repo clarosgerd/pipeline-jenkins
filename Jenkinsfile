@@ -5,11 +5,11 @@ pipeline{
             agent { label 'master' }
             steps{
                git 'https://github.com/alvaro980/Docker-files.git'
-               dir("Docker-files"){
-                     sh "pwd"
-                     sh "ls"
+            //    dir("Docker-files"){
+            //          sh "pwd"
+            //          sh "ls"
                      sh "docker-compose up -d"    
-                }
+                // }
             }  
         }
         // stage("Deploy to QA"){
