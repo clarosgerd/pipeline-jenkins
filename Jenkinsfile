@@ -12,7 +12,8 @@ pipeline{
             steps{
                 dir("Docker-files"){
                      sh "pwd"
-                     sh "docker-compose up --build"    
+                     sh "ls"
+                     sh "docker-compose up --d"    
                 }
             }
         }
