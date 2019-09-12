@@ -15,8 +15,8 @@ pipeline{
         stage("Build"){
             agent { label ' master' }
             steps{
-                 sh "sudo docker run -d -p 27017-27019:27017-27019 --name mongodb mongo"
-                 sh "sudo docker run -d -p 4000:4000 --name web_app node" 
+                 sh "docker run -d -p  27017-27019:27017-27019 --name db mongo"
+                 sh "docker run -d -p 4000:4000 --name web_app node" 
                  sh "npm install"     
             }
         }
@@ -58,8 +58,8 @@ pipeline{
         stage("Deploy PROD"){
             agent{label "PROD"}
             steps{
-                sh "sudo docker network create -d overlay appoverlay1"
-                sh "sudo docker service create --name webapp -d --network appoverlay1 -p 4000:4000 hshar/webapp"
+                sh "docker network create -d overlay appoverlay1"
+                sh "docker service create --name webapp -d --network appoverlay1 -p 4000:4000 hshar/webapp"
             }
         }
     }
