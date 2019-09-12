@@ -72,5 +72,5 @@ pipeline{
     //             sh "docker-compose up -d book_app:v1"
     //         }
     //     }
-    // }
+    }
 }
