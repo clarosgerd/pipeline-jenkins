@@ -1,5 +1,11 @@
 pipeline{
-    agent none
+    agent {
+        docker {
+            image 'node:latest'
+            image 'mongo'
+            args '-p 3000:3000'
+        }
+    }
     stages{
         stage("Get Code from Git"){
             agent { label 'master' }
@@ -7,10 +13,18 @@ pipeline{
                git 'https://github.com/alvaro980/Docker-files.git'
             }  
         }
+        stage("Build"){
+            agent { label ' master' }
+            steps{
+                 sh "sudo docker run -d -p 27017-27019:27017-27019 --name mongodb mongo"
+                 sh "sudo docker run -d -p 4000:4000 --name web_app node" 
+                 sh "npm install"     
+            }
+        }
         stage("Deploy to QA"){
             agent { label ' master' }
             steps{
-                 sh "sudo docker-compose up -d"     
+                 sh "npm run dev"     
             }
         }
         stage("Get Automation Code from Git"){
@@ -46,7 +60,7 @@ pipeline{
             agent{label "PROD"}
             steps{
                 sh "sudo docker network create -d overlay appoverlay1"
-                sh "sudo docker service create --name webapp -d --network appoverlay1 -p 4000:4000 hshar/web_app"
+                sh "sudo docker service create --name webapp -d --network appoverlay1 -p 4000:4000 hshar/webapp"
             }
         }
     }
