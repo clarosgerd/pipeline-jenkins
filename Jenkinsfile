@@ -15,8 +15,8 @@ pipeline{
         stage("Build"){
             agent { label ' master' }
             steps{
-                 sh "sudo docker run -d -p  27017-27019:27017-27019 --name db mongo"
-                 sh "sudo docker run -d -p 4000:4000 --name web_app node" 
+                 sh "sudo docker run -d -p 27017:27017 --name db mongo"
+                 sh "sudo docker run -d -p 4000:4000 --name web_app node:latest 
                  sh "npm install"     
             }
         }
