@@ -5,8 +5,7 @@ pipeline{
             agent { label 'master' }
             steps{
                git 'https://github.com/alvaro980/Docker-files.git'
-            }
-            
+            }  
         }
         // stage("Build"){
         //     agent { docker 'maven:3-alpine' }
@@ -44,8 +43,8 @@ pipeline{
         stage("Run Automation tests"){
             agent { label 'master' }
             steps{
-                sh "docker rm browser -f || true"
-                sh "docker run -d -p 4444:4444 --name browser --link blog selenium/standalone-chrome"
+                // sh "docker rm browser -f || true"
+                // sh "docker run -d -p 4444:4444 --name browser --link blog selenium/standalone-chrome"
                 sh "mvn test"
             }  
         }
@@ -67,10 +66,10 @@ pipeline{
         stage("Deploy PROD"){
             agent{label "PROD"}
             steps{
-                unstash "stash-artifact"
-                sh "docker load -i blog.tar"
-                sh "docker rm blog -f || true"
-                sh "docker run -d -p 8090:8090 --name blog blog_app:v1"
+                // unstash "stash-artifact"
+                // sh "docker load -i blog.tar"
+                git 'https://github.com/alvaro980/Docker-files.git'
+                sh "docker-compose up -d book_app:v1"
             }
         }
     }
