@@ -1,27 +1,18 @@
 pipeline{
     agent none
     stages{
-        stage("Get Code from Git and Deploy to QA"){
+        stage("Get Code from Git"){
             agent { label 'master' }
             steps{
                git 'https://github.com/alvaro980/Docker-files.git'
-            //    dir("Docker-files"){
-            //          sh "pwd"
-            //          sh "ls"
-                     sh "docker-compose up -d"    
-                // }
             }  
         }
-        // stage("Deploy to QA"){
-        //     agent { label ' master' }
-        //     steps{
-        //         dir("Docker-files"){
-        //              sh "pwd"
-        //              sh "ls"
-        //              sh "docker-compose up -d"    
-        //         }
-        //     }
-        // }
+        stage("Deploy to QA"){
+            agent { label ' master' }
+            steps{
+                 sh "sudo docker-compose up -d"     
+            }
+        }
     //     stage("Get Automation Code from Git"){
     //         agent { label 'master' }
     //         steps{
