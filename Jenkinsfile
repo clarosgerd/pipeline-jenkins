@@ -29,7 +29,7 @@ pipeline{
         stage("Get Automation Code from Git"){
             agent { label 'master' }
             steps{
-               git 'https://github.com/susana-lima/auto-GA-v07/tree/books-app-auto-devops'
+               git 'https://github.com/susana-lima/auto-GA-v07/tree/books-app-auto-devops.git'
             } 
         }
         stage("Run Automation tests"){
