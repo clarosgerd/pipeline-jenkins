@@ -12,20 +12,20 @@ pipeline{
                git 'https://github.com/alvaro980/JavaScript.git'
             }  
         }
-        // stage("Build"){
-        //     agent { label ' master' }
-        //     steps{
-        //          sh "docker run -d -p 27017:27017 --name db mongo"
-        //          sh "docker run -d -p 4000:4000 --name web_app node" 
-        //          sh "npm install"     
-        //     }
-        // }
-        // stage("Deploy to QA"){
-        //     agent { label ' master' }
-        //     steps{
-        //          sh "npm run dev"     
-        //     }
-        // }
+        stage("Build"){
+            agent { label ' master' }
+            steps{
+                 sh "docker run -d -p 27017:27017 --name db mongo"
+                 sh "docker run -d -p 4000:4000 --name web_app node" 
+                 sh "npm install"     
+            }
+        }
+        stage("Deploy to QA"){
+            agent { label ' master' }
+            steps{
+                 sh "npm run dev"     
+            }
+        }
         stage("Get Automation Code from Git"){
             agent { label 'master' }
             steps{
